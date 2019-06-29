@@ -16,7 +16,7 @@ CREATE TABLE products(
   -- Makes a string column called "department_name" which cannot contain null --
   department_name VARCHAR(60) NOT NULL,
   -- Makes an numeric column called "retail_price" that equals the actual cost to customer --
-  retail_price INTEGER(10) NOT NULL,
+  retail_price DECIMAL(10, 2) NULL,
   -- Makes an numeric column called "stock_quantity" that will display how much of the product is available in our stores  --
   stock_quantity INTEGER(200) NOT NULL,
   -- Primary Key definition
@@ -54,9 +54,6 @@ VALUES ("LifeStraw Personal Water Filter", "Outdoors", 14.89, 135);
 
 INSERT INTO products (product_name, department_name, retail_price, stock_quantity)
 VALUES ("ALPS Mountaineering Lynx 1-Person Tent", "Outdoors", 82.92, 80);
-
-
-
 
 
 
