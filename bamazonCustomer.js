@@ -18,35 +18,63 @@ connection.connect(function(err) {
   displayProducts();
 });
 
-// five - Running this application will first display all of the items available for sale: include the id's, names, prices, 
+// Running this application will begin by displaying all of the items available for sale: includes the id's, names, prices, and stock availability. 
 var displayProducts = function(){
 	var query = "Select * FROM products";
 	connection.query(query, function(err, res){
 		if(err) throw err;
 		var displayTable = new Table ({
-			head: ["Item ID#", "Product Name", "Department Name", "Price ($)", "In-Stock"],
+      head: ["Item ID#", "Product Name", "Department Name", "Price ($)", "In-Stock"],
 			colWidths: [10,45,20,15,10]
 		});
 		for(var i = 0; i < res.length; i++){
 			displayTable.push(
 				[res[i].item_id,res[i].product_name, res[i].department_name, res[i].retail_price, res[i].stock_quantity]
-				);
+			);
     }
 		console.log(displayTable.toString());
-		// purchasePrompt();
+		purchasePrompt();
   });
   // logs the actual query being run
   console.log(query.sql);
   connection.end();
 }
 
+
 // six - The app should then prompt users with two messages:
 // item_id
-// how many units of the product the would like to buy
+// how many units of the product they would like to buy
+function purchasePrompt() {
+  inquirer.prompt([
+    {
+      name: "ID",
+      type: "input",
+      message: "Welcome to Bamazon. Please enter the Item ID# for the product that you would like to purchase.",
+      filter: Number
+    },
+
+    {
+      name: "Quantity",
+      type: "input",
+      message: "How many of these items would you like to purchase today?",
+      filter: Number
+    },
+    
+  ]).then(function(answer) {
+      // based on their answer, either call the bid or the post functions
+      if (answer.postOrBid === "POST") {
+        postAuction();
+      }
+      else if(answer.postOrBid === "BID") {
+        bidAuction();
+      } else{
+        connection.end();
+      }
+    });
+}
 
 
-
-// seven - ONce the customer has placed theorder, your application should check if your store has enoiugh of the product to meet the customer's request.
+// seven - Once the customer has placed the order, your application should check if your store has enough of the product to meet the customer's request.
 // --> IF NOT the app should log a phrase like 'Insufficient quantity!'
 // --> AND prevent the order from going through
 
