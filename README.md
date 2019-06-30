@@ -27,22 +27,22 @@ The following npm packages were required for data input, storage, and output dis
 
 
 ### Using the CLI App
-<img src="" alt="Table displaying products for sale on Bamazon.">
+<img src="./images/bamazon-productsTable.png" alt="Table displaying products for sale on Bamazon.">
 5. The app works via the creation a Node application called `bamazonCustomer.js`. When you run this application, it will first display all of the items available for sale. These will be displayed in a table format with the following table heads and columns including: Item ID numbers, Product Name, Department Name, retail Price, and finally the current Stock availability of items for sale.
 <hr />
 
-<img src="" alt="The two purchase prompts displayed to the user.">
+<img src="./images/bamazon-purchasePrompts.png" alt="The two purchase prompts displayed to the user.">
 6. Once the table of products is displayed, the app proceeds to prompt users with two messages:
    * The first will ask the user for the Item ID # of the product they would like to buy. After answering this prompt.
    * The second message will ask the user to enter a numeric value for how many units of the product they would like to buy. User will hit enter to recorde the inputs.
 <hr />
 
-<img src="" alt="The application alerts the user if there is not sufficient quantity of the items they wish to purchase.">
+<img src="#" alt="The application alerts the user if there is not sufficient quantity of the items they wish to purchase.">
 7. Once the customer has placed their order, the application will check and confirm that the store has enough of the product in-stock to meet the customer's request.
    * If not, the app will log the phrase `Insufficient quantity!`, and will proceed to prevent the order from being processed.
 <hr />
 
-<img src="" alt="Screen shot showing a successful purchase transaction.">
+<img src="#" alt="Screen shot showing a successful purchase transaction.">
 8. However, if the store _does_ have enough of the product in-stock, the application will proceed to fulfill the customer's order. A successful purchase will trigger the following events:
    * The SQL database will update to reflect the remaining quantity of items in-stock.
    * Once the update goes through, the application will show the customer the total cost of their purchase.

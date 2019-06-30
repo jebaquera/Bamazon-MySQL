@@ -60,18 +60,13 @@ function purchasePrompt() {
       filter: Number
     },
     
-  ]).then(function(answer) {
-      // based on their answer, either call the bid or the post functions
-      if (answer.postOrBid === "POST") {
-        postAuction();
-      }
-      else if(answer.postOrBid === "BID") {
-        bidAuction();
-      } else{
-        connection.end();
-      }
-    });
-}
+  ]).then(function(answers) {
+      // Process the Item IDs and Quantity requested from user inputs
+      var IDrequested = answers.ID;
+      var quantityRequested = answers.Quantity;
+      orderInvoice(IDrequested, quantityRequested);
+  });
+};
 
 
 // seven - Once the customer has placed the order, your application should check if your store has enough of the product to meet the customer's request.
