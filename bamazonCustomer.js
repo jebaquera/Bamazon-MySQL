@@ -19,6 +19,8 @@ var connection = mysql.createConnection({
 connection.connect(function(err) {
   if (err) throw err;
   console.log("connected as id" + connection.threadId);
+  displayProducts();
+
 });
 
 // Running this application will begin by displaying all of the items available for sale: includes the id's, names, prices, and stock availability. 
@@ -78,10 +80,11 @@ function orderInvoice(ID, amtNeeded){
 			var totalCost = res[0].retail_price * amtNeeded;
 			console.log("We have confirmed the availability of your items.");
 			console.log("Your total cost for " + amtNeeded + " items of " +res[0].product_name + " is $" + totalCost + " Thank you for shopping with us!");    
-          // UPDATE the SQL Database to reflect the remaining quantity
-          // I tried the connection.query below first but was unsuccessful so I tried it as a separate function called out here 
-            // connection.query("UPDATE products SET stock_quantity = stock_quantity - " + amtNeeded + "WHERE item_id = " + ID);
-            // updateProduct();
+          
+          // console.log(amtNeeded)
+          // console.log(ID)
+
+          updateProduct(amtNeeded,ID);
  
     // --> IF there are not enough in-stock items, the app should log a phrase regarding the availability issue and prevent the order from going through
     } 
@@ -92,25 +95,19 @@ function orderInvoice(ID, amtNeeded){
 	});
 };
 
-displayProducts();
 
 // I also created this function to update the table after a purchase was made --
-// function updateProduct() {
-//   console.log("Updating table quantities...\n");
-//   var updateQuantity = connection.query(
-//     "UPDATE products SET ? WHERE ?",
-//     [
-//       {
-//         stock_quantity: (res[0].stock_quantity - parseInt(answer.quantity))
-//       },
-//       {
-//         item_id: res[0].item_id
-//       }
-//     ],
-//     function(err, res) {
-//       if (err) throw err;   
-//     }
-//   );
-// };
+function updateProduct(amtNeeded, ID) {
+  console.log(ID, amtNeeded);
+            connection.query(
+              "UPDATE products SET stock_quantity = stock_quantity - ? WHERE item_id = ?",
+              [amtNeeded, ID],
+              function(err, res) {
+                if (err) throw err;
+                console.log(`success message`)
+                displayProducts();
+              }
+            )}
+
 
 
