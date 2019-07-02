@@ -33,9 +33,9 @@ The following npm packages were required for data input, storage, and output dis
 <hr />
 
 <img src="./images/bamazon-promptsPurchase.png" alt="The two purchase prompts displayed to the user.">
-6. Once the table of products is displayed, the app proceeds to prompt users with two messages:
-   * The first will ask the user for the Item ID # of the product they would like to buy. After answering this prompt.
-   * The second message will ask the user to enter a numeric value for how many units of the product they would like to buy. User will hit enter to record the inputs.
+6. Once the table of products is displayed, the app proceeds to prompt users with two messages: <br />
+   * The first will ask the user for the Item ID # of the product they would like to buy. After answering this prompt. <br />
+   * he second message will ask the user to enter a numeric value for how many units of the product they would like to buy. User will hit enter to record the inputs.
 
 7. Once the customer has placed their order, the application will check and confirm that the store has enough of the product in-stock to meet the customer's request.
 
