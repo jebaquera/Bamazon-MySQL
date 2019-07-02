@@ -7,6 +7,7 @@ This activity required the creation of an Amazon-like storefront using a MySQL d
 ## Package Dependencies
 The following npm packages were required for data input, storage, and output display:
    * inquirer v6.4.1
+   * dotenv v8.0.0
    * mysql v2.17.1
    * cli-table v0.3.1
 

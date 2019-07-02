@@ -1,7 +1,10 @@
+// .env file contains my db password
+require("dotenv").config();
+
+// Variables
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var Table = require("cli-table");
-require("dotenv").config();
 
 // Connection information for the sql database
 var connection = mysql.createConnection({
@@ -15,13 +18,12 @@ var connection = mysql.createConnection({
 // Connect to the mysql server and sql database
 connection.connect(function(err) {
   if (err) throw err;
-  // run the displayPeroducts function after the connection is made to display the items to the user
-  displayProducts();
+  console.log("connected as id" + connection.threadId);
 });
 
 // Running this application will begin by displaying all of the items available for sale: includes the id's, names, prices, and stock availability. 
 var displayProducts = function(){
-	var query = "Select * FROM products";
+	var query = "SELECT * FROM products";
 	connection.query(query, function(err, res){
 		if(err) throw err;
 		var displayTable = new Table ({
@@ -38,13 +40,13 @@ var displayProducts = function(){
   });
   // logs the actual query being run
   console.log(query.sql);
-  connection.end();
+  // connection.end();
 }
 
 
-// six - The app should then prompt users with two messages:
-// item_id
-// how many units of the product they would like to buy
+// Prompt users with two messages-
+// Item_id of product
+// Number of units of the product they would like to purchase
 function purchasePrompt() {
   inquirer.prompt([
     {
@@ -74,6 +76,23 @@ function purchasePrompt() {
 // --> IF NOT the app should log a phrase like 'Insufficient quantity!'
 // --> AND prevent the order from going through
 
+function orderInvoice(ID, amtNeeded){
+	connection.query('Select * FROM products WHERE item_id = ' + ID, function(err,res){
+		if(err){console.log(err)};
+		if(amtNeeded <= res[0].stock_quantity){
+			var totalCost = res[0].retail_price * amtNeeded;
+			console.log("We have confirmed the availability of your items.");
+			console.log("Your total cost for " + amtNeeded + " items of " +res[0].product_name + " is $" + totalCost + " Thank you for shopping with us!");
+
+			connection.query("UPDATE products SET stock_quantity = stock_quantity - " + amtNeeded + "WHERE item_id = " + ID);
+		} else{
+			console.log("Insufficient quantity, sorry we do not have enough " + res[0].product_name + "to complete your order.");
+		};
+		displayProducts();
+	});
+};
+
+displayProducts(); 
 
 
 
