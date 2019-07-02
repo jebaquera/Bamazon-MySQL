@@ -32,21 +32,18 @@ var displayProducts = function(){
 		});
 		for(var i = 0; i < res.length; i++){
 			displayTable.push(
-				[res[i].item_id,res[i].product_name, res[i].department_name, res[i].retail_price, res[i].stock_quantity]
+				[res[i].item_id, res[i].product_name, res[i].department_name, res[i].retail_price, res[i].stock_quantity]
 			);
     }
 		console.log(displayTable.toString());
 		purchasePrompt();
   });
-  // logs the actual query being run
-  console.log(query.sql);
-  // connection.end();
 }
 
 
-// Prompt users with two messages-
-// Item_id of product
-// Number of units of the product they would like to purchase
+// Prompt users with two messages required to fulfill purchase:
+// ID - item_id of product
+// Quantity - number of units of the product they would like to purchase
 function purchasePrompt() {
   inquirer.prompt([
     {
@@ -55,7 +52,6 @@ function purchasePrompt() {
       message: "Welcome to Bamazon. Please enter the Item ID# for the product that you would like to purchase.",
       filter: Number
     },
-
     {
       name: "Quantity",
       type: "input",
@@ -63,40 +59,35 @@ function purchasePrompt() {
       filter: Number
     },
     
-  ]).then(function(answers) {
+  ]).then(function(answers){
       // Process the Item IDs and Quantity requested from user inputs
-      var IDrequested = answers.ID;
       var quantityRequested = answers.Quantity;
+      var IDrequested = answers.ID;
       orderInvoice(IDrequested, quantityRequested);
   });
 };
 
 
-// seven - Once the customer has placed the order, your application should check if your store has enough of the product to meet the customer's request.
-// --> IF NOT the app should log a phrase like 'Insufficient quantity!'
-// --> AND prevent the order from going through
-
+// Once the customer has placed the order, your application should check if your store has enough of the product to meet the customer's request.
+    // IF the store _does_ have enough, proceed to fulfill the customer's order and show the customer the TOTAL COST of their purchase.
 function orderInvoice(ID, amtNeeded){
 	connection.query('Select * FROM products WHERE item_id = ' + ID, function(err,res){
-		if(err){console.log(err)};
+    if(err){console.log(err)};
+    
 		if(amtNeeded <= res[0].stock_quantity){
 			var totalCost = res[0].retail_price * amtNeeded;
 			console.log("We have confirmed the availability of your items.");
-			console.log("Your total cost for " + amtNeeded + " items of " +res[0].product_name + " is $" + totalCost + " Thank you for shopping with us!");
-
-			connection.query("UPDATE products SET stock_quantity = stock_quantity - " + amtNeeded + "WHERE item_id = " + ID);
-		} else{
-			console.log("Insufficient quantity, sorry we do not have enough " + res[0].product_name + "to complete your order.");
+			console.log("Your total cost for " + amtNeeded + " items of " +res[0].product_name + " is $" + totalCost + " Thank you for shopping with us!");    
+          // UPDATE the SQL Database to reflect the remaining quantity
+          // connection.query("UPDATE products SET stock_quantity = stock_quantity - " + amtNeeded + "WHERE item_id = " + ID);
+  
+    // --> IF NOT the app should log a phrase regarding the availability issue and prevent the order from going through
+    } else {
+      console.log("Sorry we do not have enough " + res[0].product_name + " to complete your order. Please try again.");
+      displayProducts();
 		};
-		displayProducts();
+    
 	});
 };
 
-displayProducts(); 
-
-
-
-// eight - IF the store _does_ have enough of the product
-// --> FULFILL the customer's order:
-// Update the SQL Database to reflect the remaining quantity
-// Once the update goes through, show the customer the TOTAL COST of their purchase.
+displayProducts();
