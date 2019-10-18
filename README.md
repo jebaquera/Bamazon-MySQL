@@ -45,5 +45,5 @@ The following npm packages were required for data input, storage, and output dis
 <hr />
 
 <img src="./images/bamazon-promptsSorry.png" alt="Screen shot showing a successful purchase transaction."><br />
-8. If not, the app will log the phrase `Sorry we do not have enough (product_name) to complete your order. Please try again.`, and will proceed to prevent the order from being processed. The table will display allowing the user to proceed.
+9. If not, the app will log the phrase `Sorry we do not have enough (product_name) to complete your order. Please try again.`, and will proceed to prevent the order from being processed. The table will display allowing the user to proceed.
 <hr />
